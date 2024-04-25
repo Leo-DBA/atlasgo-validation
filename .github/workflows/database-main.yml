@@ -19,10 +19,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Atlas Go
+      - name: Install Atlas Go (specific version)
         run: |
-          pip install atlasgo
+          pip install atlasgo==0.31.1
 
       - name: Validate SQL scripts
         run: |
-          ATLASGO_SCRIPTS_DIR=sql ATLASGO_RULES_DIR=~/.atlasgo/rules atlas validate
+          ATLASGO_SCRIPTS_DIR=scripts ATLASGO_RULES_DIR=~/.atlasgo/rules atlas validate
