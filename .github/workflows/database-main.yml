@@ -1,28 +1,39 @@
-name: SQL Validation with Atlas Go
+name: Atlas CI
 
 on:
+  # Run on push to the main branch
   push:
     branches: [ main ]
+  # Run on pull requests
   pull_request:
-    branches: [ main ]
 
 jobs:
-  validate-sql:
+  lint:
     runs-on: ubuntu-latest
+    services:
+      # Spin up a SQL Server container for dev database
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_PID: Developer
+          MSSQL_SA_PASSWORD: DBA_master@123  # Replace with your password
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P P@ssw0rd0995 -Q \"SELECT 1\""
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Python
-        uses: actions/setup-python@v3
+      - uses: ariga/setup-atlas@v0  # Install Atlas CLI
+
+      - uses: ariga/atlas-action/migrate/lint@v1  # Validate SQL scripts
         with:
-          python-version: '3.12'
+          dir: 'sql'  # Path to your migration directory
+          #dir-name: 'my-project'  # Project name in Atlas Cloud
+          dev-url: sqlserver://sa:P@ssw0rd0995@localhost:1433?database=master  # Dev database connection string
 
-      - name: Install Atlas Go (specific version)
-        run: |
-          pip install atlasgo==0.31.1
-
-      - name: Validate SQL scripts
-        run: |
-          ATLASGO_SCRIPTS_DIR=scripts ATLASGO_RULES_DIR=~/.atlasgo/rules atlas validate
