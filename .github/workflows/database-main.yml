@@ -1,0 +1,28 @@
+name: SQL Validation with Atlas Go
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-sql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.12'
+
+      - name: Install Atlas Go
+        run: |
+          pip install atlasgo
+
+      - name: Validate SQL scripts
+        run: |
+          ATLASGO_SCRIPTS_DIR=sql ATLASGO_RULES_DIR=~/.atlasgo/rules atlas validate
