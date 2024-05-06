@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Instalar Atlas CLI
+        run: |
+          # Instala o Atlas CLI globalmente
+          npm install -g atlas
+
       - name: Executar Validação HCL
         run: |
           npx atlas validate -f atlasgo/rules/atlas.hcl \
