@@ -33,7 +33,5 @@ jobs:
 
       - uses: ariga/atlas-action/migrate/lint@v1  # Validate SQL scripts
         with:
-          dir: 'sql'  # Path to your migration directory
-          #dir-name: 'my-project'  # Project name in Atlas Cloud
           dev-url: sqlserver://sa:P@ssw0rd0995@localhost:1433?database=master  # Dev database connection string
 
