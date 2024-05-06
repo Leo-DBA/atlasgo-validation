@@ -11,13 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Instalar Atlas CLI
+      - name: Baixar Atlas CLI Binário
         run: |
-          # Instala o Atlas CLI globalmente
-          npm install -g atlas
+          # Baixar o binário do Atlas CLI para a versão 2.2.1
+          curl -sL https://atlassian.github.io/atlas-cli/downloads/atlas-cli-2.2.1-linux-x64.tar.gz -o atlas-cli.tar.gz
+
+          # Extrair o binário
+          tar -xf atlas-cli.tar.gz
 
       - name: Executar Validação HCL
         run: |
-          npx atlas validate -f atlasgo/rules/atlas.hcl \
+          # Substitua "atlasgo/rules/atlas.hcl" pelo caminho do seu arquivo HCL.
+          # Substitua "/path/to/extracted/atlas-cli" pelo caminho real do binário extraído.
+          /path/to/extracted/atlas-cli validate -f atlasgo/rules/atlas.hcl \
               -s 'file://./sql/meu_primeiro_sql.sql' \
               -o ./validation_results.json
