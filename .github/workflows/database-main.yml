@@ -11,8 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Instalar Node.js 16
+      - name: Instalar Node.js 16 (com sudo)
         run: |
+          # Executa o comando 'apt-get update' com sudo
+          sudo apt-get update
           # Instala o Node.js 16
           curl -sL https://deb.nodesource.com/setup_16.x | bash -s
           apt-get install -y nodejs
