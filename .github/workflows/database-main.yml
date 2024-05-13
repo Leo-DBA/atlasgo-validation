@@ -1,27 +1,10 @@
-name: Validar Scripts SQL com HCL Local
-
-on:
-  push:
-    branches: [ main ]
-
+name: Deploy schema changes
+run-name: I'm using Atlas 🚀
+on: [push]
 jobs:
-  validar-scripts:
-    runs-on: ubuntu-latest
-
+  use-atlas:
+    runs-on: [elastic-runner-dev]
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Instalar Atlas CLI com apt
-        run: |
-          # Atualizar a lista de pacotes
-          sudo apt-get update
-
-          # Instalar o Atlas CLI
-          sudo apt-get install -y atlas-cli
-
-      - name: Executar Validação HCL
-        run: |
-          # Substitua "atlasgo/rules/atlas.hcl" pelo caminho do seu arquivo HCL.
-          atlas validate -f atlasgo/rules/atlas.hcl \
-              -s 'file://./sql/meu_primeiro_sql.sql' \
-              -o ./validation_results.json
+      - uses: ariga/setup-atlas@master
+      - run: atlas version
+      # - run: atlas schema apply ... 
