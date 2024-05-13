@@ -1,5 +1,5 @@
 name: Setup Atlas
-run-name: I'm using Atlas 🚀
+run-name: I'm using Atlas 
 on: [push]
 jobs:
   use-atlas:
@@ -8,3 +8,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./
       - run: atlas version
+
+      # Add the HCL validation step here:
+      - name: Run HCL validation
+        run: |
+          cd atlasgo/rules  # Navigate to the directory containing atlas.hcl
+          atlas validate --dir sql  # Execute Atlasgo HCL validation, specifying the SQL scripts folder
+    
