@@ -5,8 +5,6 @@ jobs:
   use-atlas:
     runs-on: ubuntu-latest
     steps:
-      - uses: ariga/setup-atlas@v0
-        with:
-          cloud-token: ${{ secrets.ATLAS_CLOUD_TOKEN }}
+      - uses: ariga/setup-atlas@master
       - run: atlas version
-      # - run: atlas schema apply ...
+      # - run: atlas schema apply ... 
