@@ -42,3 +42,8 @@ outputs:
 runs:
   using: node20
   main: dist/index.js
+ pre:
+    - name: Run HCL validation
+      run: |  # Assuming you have an `atlas` command-line tool
+        cd atlasgo/rules  # Navigate to the directory containing atlas.hcl
+        atlas validate  # Execute Atlasgo HCL validation
