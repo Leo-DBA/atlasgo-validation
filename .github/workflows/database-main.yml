@@ -1,17 +1,32 @@
 name: Setup Atlas
-run-name: I'm using Atlas 
+run-name: I'm using Atlas
 on: [push]
 jobs:
   use-atlas:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./
-      - run: atlas version
+      - name: Check Atlas CLI installation
+        run: |
+          atlas --version  # Try running the `atlas` command with the `--version` flag
+          if [ $? -eq 0 ]; then
+            echo "Atlas CLI is installed."
+          else
+            echo "Atlas CLI is not installed or not in PATH."
+            exit 1  # Exit with non-zero code to signal missing CLI
+          fi
+      - uses: ./  # Assuming your main script is here (optional)
+      - run: atlas version  # This might fail if CLI is not installed (optional)
 
-      # Add the HCL validation step here:
-      - name: Run HCL validation
+      # Add the HCL validation step here (assuming CLI is installed):
+      - name: Run HCL validation (if installed)
         run: |
           cd atlasgo/rules  # Navigate to the directory containing atlas.hcl
           atlas validate --dir sql  # Execute Atlasgo HCL validation, specifying the SQL scripts folder
-    
+        # Check the exit code to indicate success or failure (optional)
+        # if [ $? -eq 0 ]; then
+        #   echo "HCL validation successful"
+        # else
+        #   echo "HCL validation failed!"
+        #   exit 1  # Exit with non-zero code to signal failure
+        # fi
