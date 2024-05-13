@@ -3,12 +3,13 @@ run-name: I'm using Atlas
 on: [push]
 jobs:
   use-atlas:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Assuming you're using Ubuntu-based runner
     steps:
       - uses: actions/checkout@v4
       - name: Check Atlas CLI installation
         run: |
-          atlas --version  # Try running the `atlas` command with the `--version` flag
+          # Assuming Atlasgo is installed in /home/user/.local/bin (adjust if needed)
+          /home/user/.local/bin/atlas --version
           if [ $? -eq 0 ]; then
             echo "Atlas CLI is installed."
           else
@@ -16,7 +17,7 @@ jobs:
             exit 1  # Exit with non-zero code to signal missing CLI
           fi
       - uses: ./  # Assuming your main script is here (optional)
-      - run: atlas version  # This might fail if CLI is not installed (optional)
+      - run: /home/user/.local/bin/atlas version  # Specify the installation path (optional)
 
       # Add the HCL validation step here (assuming CLI is installed):
       - name: Run HCL validation (if installed)
