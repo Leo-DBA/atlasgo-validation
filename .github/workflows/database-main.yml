@@ -1,10 +1,10 @@
-name: Deploy schema changes
+name: Setup Atlas
 run-name: I'm using Atlas 🚀
 on: [push]
 jobs:
   use-atlas:
-    runs-on: [elastic-runner-dev]
+    runs-on: ubuntu-latest
     steps:
-      - uses: ariga/setup-atlas@master
+      - uses: actions/checkout@v4
+      - uses: ./
       - run: atlas version
-      # - run: atlas schema apply ... 
